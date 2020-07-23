@@ -94,7 +94,7 @@ fun bitmapToDrawable(context: Context, @DrawableRes drawableId: Int): Bitmap {
 }
 
 @Throws(IOException::class)
-private fun createImageFile(context: Context, imageFileName: String, format: String = "jpg"): File {
+fun createImageFile(context: Context, imageFileName: String, format: String = "jpg"): File {
     val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     val filePic = File(storageDir, "$imageFileName.$format")
     filePic.createNewFile()

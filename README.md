@@ -51,7 +51,11 @@ dependencies {
 * composeMmsMessage
 #### Navigation (In progress)
 * replaceFragment
+* addFragment
+* removeFragment
 * navToActivity
+#### Network
+* hasNetwork
 #### General 
 * Util constants
 * log
@@ -62,6 +66,8 @@ dependencies {
 * base64DecodeUTF8
 * readTextFromAsset
 * downloadFile
+#### Listeners
+* OnLoadListener
 #### Animations (Not Yet)
 
 License

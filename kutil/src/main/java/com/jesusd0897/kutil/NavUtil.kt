@@ -21,16 +21,34 @@ import android.content.Intent
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 
 const val EXTRA_ID_TAG = "extra_id"
 const val EXTRA_ITEM_TAG = "extra_item"
+const val EXTRA_ITEMS_TAG = "extra_items"
 const val EXTRA_POSITION_TAG = "position_extra"
+const val EXTRA_RESULT = "extra_result"
 
 fun replaceFragment(
-    fragmentManager: FragmentManager,
+    fm: FragmentManager,
     fragment: Fragment,
-    @IdRes containerViewId: Int
-) = fragmentManager.beginTransaction().replace(containerViewId, fragment).commit()
+    @IdRes containerViewId: Int,
+    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
+) = fm.beginTransaction().setTransition(transition).replace(containerViewId, fragment).commit()
+
+fun addFragment(
+    fm: FragmentManager,
+    fragment: Fragment,
+    @IdRes containerViewId: Int,
+    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
+) = fm.beginTransaction().setTransition(transition).add(containerViewId, fragment).commit()
+
+fun removeFragment(
+    fm: FragmentManager,
+    fragment: Fragment,
+    @IdRes containerViewId: Int,
+    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
+) = fm.beginTransaction().setTransition(transition).remove(fragment).commit()
 
 fun navToActivity(context: Context, clazz: Class<*>) =
     context.startActivity(Intent(context, clazz))
