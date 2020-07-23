@@ -66,6 +66,7 @@ dependencies {
 * base64DecodeUTF8
 * readTextFromAsset
 * downloadFile
+* appPackageName
 #### Listeners
 * OnLoadListener
 #### Animations (Not Yet)

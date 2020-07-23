@@ -159,3 +159,6 @@ fun downloadFile(context: Context, downloadURL: String, title: String, descripti
     val dm = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     dm.enqueue(request)
 }
+
+fun appPackageName(activity: Activity): String =
+    activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
