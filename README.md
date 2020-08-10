@@ -48,7 +48,7 @@ dependencies {
 * addEventToCalendar
 * dialPhoneNumber
 * openWifiSettings
-* composeMmsMessage
+* composeSmsMessage
 #### Navigation (In progress)
 * replaceFragment
 * addFragment

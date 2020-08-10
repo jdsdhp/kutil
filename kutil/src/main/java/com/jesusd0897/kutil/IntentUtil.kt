@@ -137,7 +137,7 @@ fun openWifiSettings(context: Context, settingAction: String) {
  * To initiate an SMS or MMS text message, use one of the intent actions and specify message
  * details such as the phone number, subject, and message body using the extra keys.
  */
-fun composeMmsMessage(context: Context, message: String, attachment: Uri) {
+fun composeSmsMessage(context: Context, message: String, attachment: Uri) {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond
         putExtra("sms_body", message)
