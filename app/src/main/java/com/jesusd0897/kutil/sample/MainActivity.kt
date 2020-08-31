@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.jesusd0897.kutil
+package com.jesusd0897.kutil.sample
 
 import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity()
+class MainActivity : AppCompatActivity() {
+
+}

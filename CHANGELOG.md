@@ -1,5 +1,9 @@
 Change Log
 ==========
+Version 0.1.0 *(2020-08-17)*
+----------------------------
+appPackageName changed to appVersion.
+
 Version 0.1.2 *(2020-08-04)*
 ----------------------------
 Dependencies updated.

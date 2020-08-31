@@ -160,5 +160,5 @@ fun downloadFile(context: Context, downloadURL: String, title: String, descripti
     dm.enqueue(request)
 }
 
-fun appPackageName(activity: Activity): String =
+fun appVersion(activity: Activity): String =
     activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
