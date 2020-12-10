@@ -30,6 +30,7 @@ dependencies {
 * dialogBuilder
 * choiceDialogBuilder
 * multiChoiceDialogBuilder
+* progressDialog
 #### Date (In progress)
 * shortDateToLongDate
 #### Image
@@ -49,6 +50,8 @@ dependencies {
 * dialPhoneNumber
 * openWifiSettings
 * composeSmsMessage
+* locateAtMap
+* showSoftKeyboard
 #### Navigation (In progress)
 * replaceFragment
 * addFragment
@@ -56,6 +59,7 @@ dependencies {
 * navToActivity
 #### Network
 * hasNetwork
+* networkType
 #### General 
 * Util constants
 * log
@@ -67,8 +71,21 @@ dependencies {
 * readTextFromAsset
 * downloadFile
 * appVersion
+* provideSimpleDeviceInfo
+* getThemeColor
+* validateEmail
+* validateOnlyText
 #### Listeners
 * OnLoadListener
+* CountListener
+#### Extensions
+* ViewExtensions
+* MathExtensions
+#### UI
+* KBasicFragment
+* KRecyclerFragment
+#### Others
+* StatusResource
 #### Animations (Not Yet)
 
 License

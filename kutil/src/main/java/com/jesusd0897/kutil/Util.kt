@@ -24,10 +24,14 @@ import android.os.Build
 import android.os.Environment
 import android.util.Base64
 import android.util.Log
+import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import java.io.InputStream
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
+import java.util.regex.Pattern
 
 const val TAG_DEBUG = " - tag/dev"
 
@@ -162,3 +166,20 @@ fun downloadFile(context: Context, downloadURL: String, title: String, descripti
 
 fun appVersion(activity: Activity): String =
     activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
+
+fun provideSimpleDeviceInfo() =
+    "BRAND: ${Build.BRAND}\n" +
+            "MANUFACTURER: ${Build.MANUFACTURER}\n" +
+            "HARDWARE: ${Build.HARDWARE}\n" +
+            "MODEL: ${Build.MODEL}\n" +
+            "SDK_INT: ${Build.VERSION.SDK_INT}"
+
+fun getThemeColor(context: Context, @AttrRes color: Int): Int {
+    val value = TypedValue()
+    context.theme.resolveAttribute(color, value, true)
+    return ContextCompat.getColor(context, value.resourceId)
+}
+
+fun validateEmail(email: String) = Pattern.compile(PATTERN_EMAIL).matcher(email).matches()
+
+fun validateOnlyText(text: String) = Pattern.compile(PATTERN_NAME).matcher(text).matches()

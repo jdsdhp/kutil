@@ -16,5 +16,6 @@
   -->
 
 <resources>
-    <string name="app_not_found">No se ha encontrado ninguna aplicación compatible para ejecutar la acción.</string>
+    <string name="no_items_found_title">Upss!</string>
+    <string name="no_items_found">No hay elementos para mostrar</string>
 </resources>

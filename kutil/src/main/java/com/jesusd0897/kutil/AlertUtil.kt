@@ -26,11 +26,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun alertDialog(
     context: Context,
-    @StringRes title: Int?, @StringRes message: Int?,
-    @StringRes positiveText: Int?, @StringRes negativeText: Int?,
-    @DrawableRes icon: Int?, isCancelable: Boolean? = true,
-    positiveListener: DialogInterface.OnClickListener?,
-    negativeListener: DialogInterface.OnClickListener?
+    @StringRes title: Int? = null, @StringRes message: Int? = null,
+    @StringRes positiveText: Int? = null, @StringRes negativeText: Int? = null,
+    @DrawableRes icon: Int? = null, isCancelable: Boolean? = true,
+    positiveListener: DialogInterface.OnClickListener? = null,
+    negativeListener: DialogInterface.OnClickListener? = null
 ): AlertDialog {
     val builder = MaterialAlertDialogBuilder(context)
     isCancelable?.let { builder.setCancelable(it) }
@@ -44,11 +44,11 @@ fun alertDialog(
 
 fun dialogBuilder(
     context: Context,
-    @StringRes title: Int?, @StringRes message: Int?,
-    @StringRes positiveText: Int?, @StringRes negativeText: Int?,
-    @DrawableRes icon: Int?, isCancelable: Boolean? = true,
-    positiveListener: DialogInterface.OnClickListener?,
-    negativeListener: DialogInterface.OnClickListener?
+    @StringRes title: Int? = null, @StringRes message: Int? = null,
+    @StringRes positiveText: Int? = null, @StringRes negativeText: Int? = null,
+    @DrawableRes icon: Int? = null, isCancelable: Boolean? = true,
+    positiveListener: DialogInterface.OnClickListener? = null,
+    negativeListener: DialogInterface.OnClickListener? = null
 ): MaterialAlertDialogBuilder {
     val builder = MaterialAlertDialogBuilder(context)
     isCancelable?.let { builder.setCancelable(it) }
@@ -62,14 +62,14 @@ fun dialogBuilder(
 
 fun choiceDialogBuilder(
     context: Context,
-    @StringRes title: Int?, @StringRes message: Int?,
-    @StringRes positiveText: Int?, @StringRes negativeText: Int?,
-    @DrawableRes icon: Int?, isCancelable: Boolean?,
-    positiveListener: DialogInterface.OnClickListener?,
-    negativeListener: DialogInterface.OnClickListener?,
+    @StringRes title: Int? = null, @StringRes message: Int? = null,
+    @StringRes positiveText: Int? = null, @StringRes negativeText: Int? = null,
+    @DrawableRes icon: Int? = null, isCancelable: Boolean? = true,
+    positiveListener: DialogInterface.OnClickListener? = null,
+    negativeListener: DialogInterface.OnClickListener? = null,
     @ArrayRes items: Int,
     checkedItem: Int,
-    clickListener: DialogInterface.OnClickListener?
+    clickListener: DialogInterface.OnClickListener? = null
 ): MaterialAlertDialogBuilder {
     val builder = MaterialAlertDialogBuilder(context)
     isCancelable?.let { builder.setCancelable(it) }
@@ -84,14 +84,14 @@ fun choiceDialogBuilder(
 
 fun multiChoiceDialogBuilder(
     context: Context,
-    @StringRes title: Int?, @StringRes message: Int?,
-    @StringRes positiveText: Int?, @StringRes negativeText: Int?,
-    @DrawableRes icon: Int?, isCancelable: Boolean?,
-    positiveListener: DialogInterface.OnClickListener?,
-    negativeListener: DialogInterface.OnClickListener?,
+    @StringRes title: Int? = null, @StringRes message: Int? = null,
+    @StringRes positiveText: Int? = null, @StringRes negativeText: Int? = null,
+    @DrawableRes icon: Int? = null, isCancelable: Boolean? = true,
+    positiveListener: DialogInterface.OnClickListener? = null,
+    negativeListener: DialogInterface.OnClickListener? = null,
     @ArrayRes items: Int,
     checkedItems: BooleanArray,
-    clickListener: DialogInterface.OnMultiChoiceClickListener?
+    clickListener: DialogInterface.OnMultiChoiceClickListener? = null
 ): MaterialAlertDialogBuilder {
     val builder = MaterialAlertDialogBuilder(context)
     isCancelable?.let { builder.setCancelable(it) }
@@ -102,3 +102,11 @@ fun multiChoiceDialogBuilder(
     negativeText?.let { builder.setNegativeButton(it, negativeListener) }
     return builder.setMultiChoiceItems(items, checkedItems, clickListener)
 }
+
+fun progressDialog(
+    context: Context, @StringRes title: Int? = null, @StringRes message: Int? = null,
+    @DrawableRes icon: Int? = null, isCancelable: Boolean? = true
+) = dialogBuilder(
+    context, title, message, null, null, icon, isCancelable,
+    null, null
+).setView(R.layout.loading_layout).create()

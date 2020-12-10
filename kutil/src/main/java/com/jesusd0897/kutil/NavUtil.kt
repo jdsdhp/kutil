@@ -50,5 +50,4 @@ fun removeFragment(
     transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE
 ) = fm.beginTransaction().setTransition(transition).remove(fragment).commit()
 
-fun navToActivity(context: Context, clazz: Class<*>) =
-    context.startActivity(Intent(context, clazz))
+fun navToActivity(context: Context, clazz: Class<*>) = context.startActivity(Intent(context, clazz))

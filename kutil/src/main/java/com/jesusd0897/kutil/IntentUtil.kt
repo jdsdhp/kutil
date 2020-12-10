@@ -23,33 +23,45 @@ import android.net.Uri
 import android.os.Build
 import android.provider.AlarmClock
 import android.provider.CalendarContract
-import android.widget.Toast
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
 /**
  * To compose an email, use one of the actions based on whether you'll include attachments,
  * and include email details such as the recipient and subject using the extra keys.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
-fun sendEmail(context: Context, emails: Array<String?>, subject: String?, message: String?) {
+fun sendEmail(
+    context: Context,
+    emails: Array<String?>,
+    subject: String?,
+    message: String?
+): Boolean {
     val intent = Intent(Intent.ACTION_SENDTO)
         .setType("message/rfc822")
         .setData(Uri.parse("mailto:"))
         .putExtra(Intent.EXTRA_EMAIL, emails)
         .putExtra(Intent.EXTRA_SUBJECT, subject)
         .putExtra(Intent.EXTRA_TEXT, message)
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
  * To open a web page, use the ACTION_VIEW action and specify the web URL in the intent data.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
 @RequiresPermission(Manifest.permission.INTERNET)
-fun openWebPage(context: Context, url: String) {
+fun openWebPage(context: Context, url: String): Boolean {
     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
@@ -63,61 +75,85 @@ fun downloadFileThroughWeb(context: Context, downloadURL: String) =
 
 /**
  * To create a new alarm, use the ACTION_SET_ALARM action and specify alarm details such as the time and message using extras.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
 @RequiresPermission(Manifest.permission.SET_ALARM)
-fun createAlarm(context: Context, message: String, hour: Int, minutes: Int) {
+fun createAlarm(context: Context, message: String, hour: Int, minutes: Int): Boolean {
     val intent = Intent(AlarmClock.ACTION_SET_ALARM).apply {
         putExtra(AlarmClock.EXTRA_MESSAGE, message)
         putExtra(AlarmClock.EXTRA_HOUR, hour)
         putExtra(AlarmClock.EXTRA_MINUTES, minutes)
     }
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
  * To create a countdown timer, use the ACTION_SET_TIMER action and specify timer details.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
 @RequiresApi(Build.VERSION_CODES.KITKAT)
 @RequiresPermission(Manifest.permission.SET_ALARM)
-fun startTimer(context: Context, message: String, seconds: Int) {
+fun startTimer(context: Context, message: String, seconds: Int): Boolean {
     val intent = Intent(AlarmClock.ACTION_SET_TIMER).apply {
         putExtra(AlarmClock.EXTRA_MESSAGE, message)
         putExtra(AlarmClock.EXTRA_LENGTH, seconds)
         putExtra(AlarmClock.EXTRA_SKIP_UI, true)
     }
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
- * To add a new event to the user's calendar, use the ACTION_INSERT action and specify the data URI with Events.CONTENT_URI.
+ * To add a new event to the user's calendar.
  * You can then specify various event details using extras.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
-fun addEventToCalendar(context: Context, title: String, location: String, begin: Long, end: Long) {
+fun addEventToCalendar(
+    context: Context,
+    title: String,
+    location: String? = null,
+    description: String? = null,
+    begin: Long? = null,
+    end: Long? = null,
+    isAllDay: Boolean? = null,
+    availability: Int? = null,
+): Boolean {
     val intent = Intent(Intent.ACTION_INSERT).apply {
         data = CalendarContract.Events.CONTENT_URI
         putExtra(CalendarContract.Events.TITLE, title)
-        putExtra(CalendarContract.Events.EVENT_LOCATION, location)
-        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
-        putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end)
+        location?.let { putExtra(CalendarContract.Events.EVENT_LOCATION, it) }
+        description?.let { putExtra(CalendarContract.Events.DESCRIPTION, it) }
+        begin?.let { putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, it) }
+        end?.let { putExtra(CalendarContract.EXTRA_EVENT_END_TIME, it) }
+        isAllDay?.let { putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, it) }
+        availability?.let { putExtra(CalendarContract.Events.AVAILABILITY, it) }
     }
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
  * To open the phone app and dial a phone number, use the ACTION_DIAL action and specify a
  * phone number using the URI scheme. When the phone app opens, it displays
  * the phone number but the user must press the Call button to begin the phone call.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
 @RequiresPermission(Manifest.permission.CALL_PHONE)
-fun dialPhoneNumber(context: Context, phoneNumber: String) {
+fun dialPhoneNumber(context: Context, phoneNumber: String): Boolean {
     val intent = Intent(Intent.ACTION_DIAL).apply {
         data = Uri.parse("tel:$phoneNumber")
     }
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
@@ -126,23 +162,49 @@ fun dialPhoneNumber(context: Context, phoneNumber: String) {
  * use one of the following intent actions to open the settings screen respective to the action name.
  *
  * Sample: "Settings.ACTION_WIFI_SETTINGS"
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
-fun openWifiSettings(context: Context, settingAction: String) {
+fun openWifiSettings(context: Context, settingAction: String): Boolean {
     val intent = Intent(settingAction)
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
 }
 
 /**
  * To initiate an SMS or MMS text message, use one of the intent actions and specify message
  * details such as the phone number, subject, and message body using the extra keys.
+ * @return true if the intent can be solved. Otherwise it will return false.
  */
-fun composeSmsMessage(context: Context, message: String, attachment: Uri) {
+fun composeSmsMessage(context: Context, message: String, attachment: Uri): Boolean {
     val intent = Intent(Intent.ACTION_SEND).apply {
         data = Uri.parse("smsto:")  // This ensures only SMS apps respond
         putExtra("sms_body", message)
         putExtra(Intent.EXTRA_STREAM, attachment)
     }
-    if (intent.resolveActivity(context.packageManager) != null) context.startActivity(intent)
-    else Toast.makeText(context, R.string.app_not_found, Toast.LENGTH_LONG).show()
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
+}
+
+/**
+ * Locate coordinates at map.
+ * @return true if the intent can be solved. Otherwise it will return false.
+ */
+fun locateAtMap(context: Context, latitude: String, longitude: String): Boolean {
+    val geo = Uri.parse("geo:$latitude,$longitude")
+    val intent = Intent(Intent.ACTION_VIEW).apply { data = geo }
+    return if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+        true
+    } else false
+}
+
+fun showSoftKeyboard(view: View) {
+    if (view.requestFocus()) {
+        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+    }
 }

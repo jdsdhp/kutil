@@ -19,15 +19,48 @@ package com.jesusd0897.kutil
 import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.annotation.RequiresPermission
 
+enum class NetworkType {
+    NONE, MOBILE, WIFI, VPN
+}
+
+/**
+ * Detect if there is any type of network connection.
+ */
 @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-fun hasNetwork(context: Context): Boolean =
-    try {
-        val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = manager.activeNetworkInfo
-        networkInfo != null && networkInfo.isAvailable && networkInfo.isConnected
-    } catch (e: Exception) {
-        e.printStackTrace()
-        false
+fun hasNetwork(context: Context): Boolean = networkType(context) != NetworkType.NONE
+
+/**
+ * Identify the current network type.
+ * @return Network type detected.
+ */
+@RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
+fun networkType(context: Context): NetworkType {
+    var result = NetworkType.NONE
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+        if (capabilities != null)
+            when {
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ->
+                    result = NetworkType.WIFI
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ->
+                    result = NetworkType.MOBILE
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_VPN) ->
+                    result = NetworkType.VPN
+            }
+    } else {
+        val activeNetwork = cm.activeNetworkInfo
+        if (activeNetwork != null)
+            when (activeNetwork.type) {
+                ConnectivityManager.TYPE_WIFI -> result = NetworkType.WIFI
+                ConnectivityManager.TYPE_MOBILE -> result = NetworkType.MOBILE
+                ConnectivityManager.TYPE_VPN -> result = NetworkType.VPN
+            }
+
     }
+    return result
+}
