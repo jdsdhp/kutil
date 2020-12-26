@@ -56,9 +56,7 @@ fun areDrawablesIdentical(drawableA: Drawable, drawableB: Drawable): Boolean {
     // If the constant state is identical, they are using the same drawable resource.
     // However, the opposite is not necessarily true.
     return stateA != null && stateA == stateB || drawableToBitmap(drawableA).sameAs(
-        drawableToBitmap(
-            drawableB
-        )
+        drawableToBitmap(drawableB)
     )
 }
 
