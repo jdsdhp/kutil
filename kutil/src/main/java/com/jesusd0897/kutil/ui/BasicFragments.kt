@@ -16,11 +16,12 @@
 
 package com.jesusd0897.kutil.ui
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.jesusd0897.kutil.R
@@ -41,9 +42,7 @@ abstract class KRecyclerFragment : KBasicFragment() {
 
     protected open var emptyTitle: String? = null
     protected open var emptySubtitle: String? = null
-
-    @DrawableRes
-    protected open var emptyIcon: Int? = R.drawable.ic_round_find_in_page
+    protected open var emptyIcon: Drawable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +52,7 @@ abstract class KRecyclerFragment : KBasicFragment() {
         _binding = FragmentRecyclerBinding.inflate(inflater, container, false)
         emptyTitle = getString(R.string.no_items_found_title)
         emptySubtitle = getString(R.string.no_items_found)
+        emptyIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_find_in_page)
         binding?.apply {
             swipeLayout.setOnRefreshListener { refreshData() }
             initPlaceholder()
@@ -68,7 +68,7 @@ abstract class KRecyclerFragment : KBasicFragment() {
     }
 
     protected open fun initPlaceholder() {
-        emptyIcon?.let { binding?.emptyPlaceholderImage?.setImageResource(it) }
+        emptyIcon?.let { binding?.emptyPlaceholderImage?.setImageDrawable(it) }
         emptyTitle?.let { binding?.emptyPlaceholderTile?.setText(it) }
         emptySubtitle?.let { binding?.emptyPlaceholderSubtitle?.setText(it) }
     }
