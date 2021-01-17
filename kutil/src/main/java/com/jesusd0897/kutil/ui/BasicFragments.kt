@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 jesusd0897.
+ * Copyright (c) 2021 jesusd0897.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,13 +41,13 @@ abstract class KRecyclerFragment : KBasicFragment() {
     protected val binding get() = _binding
 
     @StringRes
-    protected open val emptyTitle: Int? = R.string.no_items_found_title
+    protected open var emptyTitle: Int? = R.string.no_items_found_title
 
     @StringRes
-    protected open val emptySubtitle: Int? = R.string.no_items_found
+    protected open var emptySubtitle: Int? = R.string.no_items_found
 
     @DrawableRes
-    protected open val emptyIcon: Int? = R.drawable.ic_round_find_in_page
+    protected open var emptyIcon: Int? = R.drawable.ic_round_find_in_page
 
     override fun onCreateView(
         inflater: LayoutInflater,

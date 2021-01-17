@@ -15,7 +15,6 @@ Utility pack to simplify application development.
 ```gradle
 allprojects  {
     repositories {
-        ...
         maven { url 'https://jitpack.io' }
     }
 }
@@ -91,7 +90,7 @@ dependencies {
 License
 =======
 
-    Copyright (c) 2020 jesusd0897.
+    Copyright (c) 2021 jesusd0897.
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
