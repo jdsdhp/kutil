@@ -21,7 +21,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.jesusd0897.kutil.R
@@ -40,11 +39,8 @@ abstract class KRecyclerFragment : KBasicFragment() {
     private var _binding: FragmentRecyclerBinding? = null
     protected val binding get() = _binding
 
-    @StringRes
-    protected open var emptyTitle: Int? = R.string.no_items_found_title
-
-    @StringRes
-    protected open var emptySubtitle: Int? = R.string.no_items_found
+    protected open var emptyTitle: String? = null
+    protected open var emptySubtitle: String? = null
 
     @DrawableRes
     protected open var emptyIcon: Int? = R.drawable.ic_round_find_in_page
@@ -55,6 +51,8 @@ abstract class KRecyclerFragment : KBasicFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRecyclerBinding.inflate(inflater, container, false)
+        emptyTitle = getString(R.string.no_items_found_title)
+        emptySubtitle = getString(R.string.no_items_found)
         binding?.apply {
             swipeLayout.setOnRefreshListener { refreshData() }
             initPlaceholder()

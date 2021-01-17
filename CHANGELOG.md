@@ -1,5 +1,9 @@
 Change Log
 ==========
+Version 0.1.8 *(2021-01-16)*
+----------------------------
+Int attributes migrated to String.
+
 Version 0.1.7 *(2021-01-16)*
 ----------------------------
 Dependencies updated.
